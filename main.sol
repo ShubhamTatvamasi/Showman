@@ -32,16 +32,15 @@ contract Showman {
     users[msg.sender].imageHash = _imageHash;
   }
 
-  function newPost(string _post) public {
+  function newPost(string _post) public returns (uint postNumber) {
 
-    uint p = posts[msg.sender].length++;
+    postNumber = posts[msg.sender].length++;
 
-    posts[msg.sender][p].post = _post;
-    posts[msg.sender][p].time = now;
+    posts[msg.sender][postNumber] = Post(_post, now);
   }
 
   function totalPosts(address _add) public view returns (uint) {
-    
+
   	return posts[_add].length;
   }
 
