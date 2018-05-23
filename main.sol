@@ -8,7 +8,7 @@ contract Showman {
 
   struct User {
     string name;
-    string description;
+    string aboutMe;
   }    
 
   struct Post {
@@ -21,9 +21,9 @@ contract Showman {
     users[msg.sender].name = _name;
   }
 
-  function updateUserDescription(string _description) public {
+  function updateUserAboutMe(string _aboutMe) public {
 
-    users[msg.sender].description = _description;
+    users[msg.sender].aboutMe = _aboutMe;
   }
 
   function newPost(string _post) public {
