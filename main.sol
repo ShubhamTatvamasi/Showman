@@ -41,6 +41,7 @@ contract Showman {
   }
 
   function totalPosts(address _add) public view returns (uint) {
+    
   	return posts[_add].length;
   }
 
