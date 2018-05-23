@@ -2,18 +2,27 @@ pragma solidity ^0.4.0;
 
 contract Showman {
 
-  mapping (address => string) public users;
+  mapping (address => User) public users;
   mapping (address => Post[]) public posts;
+
+  struct User {
+    string name;
+    string description;
+  }    
 
   struct Post {
     string post;
     uint time;
   }    
 
+  function updateUserName(string _name) public {
 
-  function updateUser(string _name) public {
+    users[msg.sender].name = _name;
+  }
 
-    users[msg.sender] = _name;
+  function updateUserDescription(string _description) public {
+
+    users[msg.sender].description = _description;
   }
 
   function newPost(string _post) public {
