@@ -4,6 +4,7 @@ contract Showman {
 
   mapping (address => User) public users;
   mapping (address => Post[]) public posts;
+  mapping (address => mapping (address => bool)) public followers;
 
   struct User {
     string name;
@@ -38,5 +39,14 @@ contract Showman {
   	return posts[_add].length;
   }
 
+  function follow(address _follow) public {
+    
+    followers[msg.sender][_follow] = true;
+  }
+
+  function unFollow(address _unFollow) public {
+    
+    followers[msg.sender][_unFollow] = false;
+  }
 
 }
