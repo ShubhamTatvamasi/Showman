@@ -50,34 +50,29 @@ contract Showman {
 
   function follow(address _follow) public {
     
-    uint followingNumber = following[msg.sender].length++;
-    following[msg.sender][followingNumber] = _follow;
+    following[msg.sender][following[msg.sender].length++] = _follow;
 
-    uint followersNumber = followers[msg.sender].length++;
-    followers[_follow][followersNumber] = msg.sender;
+    followers[_follow][followers[msg.sender].length++] = msg.sender;
 
     isFollowing[msg.sender][_follow] = true;
   }
 
   function unFollow(address _unFollow) public {
     
-    uint followingNumber = following[msg.sender].length;
-    uint followersNumber = followers[msg.sender].length;
-
-    for (uint i = 0; i < followingNumber;i++) {
+    for (uint i = 0; i < following[msg.sender].length;i++) {
 
       if (following[msg.sender][i] == _unFollow) {
 
-        following[msg.sender][i] = following[msg.sender][followingNumber-1];
+        following[msg.sender][i] = following[msg.sender][following[msg.sender].length-1];
         following[msg.sender].length--;
       }  
     }
 
-    for (uint j = 0; j < followersNumber; j++) {
+    for (uint j = 0; j < followers[msg.sender].length; j++) {
       
       if (followers[_unFollow][j] == msg.sender) {
 
-        followers[_unFollow][j] = followers[_unFollow][followersNumber-1];
+        followers[_unFollow][j] = followers[_unFollow][followers[msg.sender].length-1];
         followers[_unFollow].length--;
       }
     }
