@@ -10,6 +10,8 @@ contract Showman {
   mapping (address => address[]) public following;
   mapping (address => address[]) public followers;
 
+  Feedback[] public feedbacks;
+
   struct User {
     string name;
     string aboutMe;
@@ -25,6 +27,12 @@ contract Showman {
     bool status;
     uint followingPosition;
     uint followersPosition;
+  }
+
+  struct Feedback {
+    string feedback;
+    address from;
+    uint time;
   }
 
   function updateUserName(string _name) public {
@@ -79,6 +87,11 @@ contract Showman {
     isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
   }
 
+  function newFeedback(string _feedback) public {
+
+    feedbacks[feedbacks.length++] = Feedback(_feedback, msg.sender, now);
+  }
+
   function totalPosts(address _add) public view returns (uint) {
 
     return posts[_add].length;
@@ -92,6 +105,11 @@ contract Showman {
   function totalFollowers(address _add) public view returns (uint) {
 
     return followers[_add].length;
+  }
+
+  function totalFeedbacks() public view returns (uint) {
+
+    return feedbacks.length;
   }
 
 }
