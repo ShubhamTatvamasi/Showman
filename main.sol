@@ -50,9 +50,11 @@ contract Showman {
 
   function follow(address _follow) public {
     
-    following[msg.sender][following[msg.sender].length++] = _follow;
+    following[msg.sender].length++;
+    following[msg.sender][following[msg.sender].length-1] = _follow;
 
-    followers[_follow][followers[msg.sender].length++] = msg.sender;
+    followers[_follow].length++;
+    followers[_follow][followers[_follow].length-1] = msg.sender;
 
     isFollowing[msg.sender][_follow] = true;
   }
