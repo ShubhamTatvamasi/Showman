@@ -85,7 +85,7 @@ contract Showman {
     uint followersNumber = isFollowing[msg.sender][_unFollow].followersPosition;    
     address lastFollowers = followers[_unFollow][followers[_unFollow].length-1];
     followers[_unFollow][followersNumber] = lastFollowers;
-    isFollowing[msg.sender][lastFollowing].followersPosition = isFollowing[msg.sender][_unFollow].followersPosition;
+    isFollowing[msg.sender][lastFollowers].followersPosition = isFollowing[msg.sender][_unFollow].followersPosition;
     followers[_unFollow].length--;
 
     isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
