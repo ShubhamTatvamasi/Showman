@@ -53,7 +53,7 @@ contract Showman {
     uint followingNumber = following[msg.sender].length++;
     following[msg.sender][followingNumber] = _follow;
 
-    uint followersNumber = following[msg.sender].length++;
+    uint followersNumber = followers[msg.sender].length++;
     followers[_follow][followersNumber] = msg.sender;
 
     isFollowing[msg.sender][_follow] = true;
