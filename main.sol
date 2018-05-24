@@ -5,7 +5,7 @@ contract Showman {
   mapping (address => User) public users;
   mapping (address => Post[]) public posts;
 
-  mapping (address => mapping (address => bool)) public isFollowing;
+  mapping (address => mapping (address => Following)) public isFollowing;
 
   mapping (address => address[]) public following;
   mapping (address => address[]) public followers;
@@ -19,6 +19,12 @@ contract Showman {
   struct Post {
     string post;
     uint time;
+  }
+
+  struct Following {
+    bool status;
+    uint followingPosition;
+    uint followersPosition;
   }
 
   function updateUserName(string _name) public {
@@ -44,35 +50,30 @@ contract Showman {
   }
 
   function follow(address _follow) public {
-    
-    following[msg.sender][following[msg.sender].length++] = _follow;
+    require(isFollowing[msg.sender][_follow].status == false);
 
-    followers[_follow][followers[_follow].length++] = msg.sender;
+    uint followingNumber = following[msg.sender].length++;
+    uint followersNumber = followers[_follow].length++;
 
-    isFollowing[msg.sender][_follow] = true;
+    following[msg.sender][followingNumber] = _follow;
+    followers[_follow][followersNumber] = msg.sender;
+
+    isFollowing[msg.sender][_follow] = Following(true, followingNumber, followersNumber);
   }
 
   function unFollow(address _unFollow) public {
+    require(isFollowing[msg.sender][_unFollow].status == true);
     
-    for (uint i = 0; i < totalFollowing(msg.sender); i++) {
+    uint followingNumber = isFollowing[msg.sender][_unFollow].followingPosition;
+    uint followersNumber = isFollowing[msg.sender][_unFollow].followersPosition;    
 
-      if (following[msg.sender][i] == _unFollow) {
+    following[msg.sender][followingNumber] = following[msg.sender][following[msg.sender].length-1];
+    following[msg.sender].length--;
 
-        following[msg.sender][i] = following[msg.sender][following[msg.sender].length-1];
-        following[msg.sender].length--;
-      }  
-    }
+    followers[_unFollow][followersNumber] = followers[_unFollow][followers[_unFollow].length-1];
+    followers[_unFollow].length--;
 
-    for (uint j = 0; j < totalFollowers(_unFollow); j++) {
-      
-      if (followers[_unFollow][j] == msg.sender) {
-
-        followers[_unFollow][j] = followers[_unFollow][followers[_unFollow].length-1];
-        followers[_unFollow].length--;
-      }
-    }
-
-    isFollowing[msg.sender][_unFollow] = false;
+    isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
   }
 
   function totalPosts(address _add) public view returns (uint) {
