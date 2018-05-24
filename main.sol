@@ -3,13 +3,14 @@ pragma solidity ^0.4.0;
 contract Showman {
 
   mapping (address => User) public users;
-  mapping (address => Post[]) public posts;
+  mapping (address => uint[]) public postNumbers;
 
   mapping (address => mapping (address => Following)) public isFollowing;
 
   mapping (address => address[]) public following;
   mapping (address => address[]) public followers;
 
+  Post[] public posts;
   Feedback[] public feedbacks;
 
   struct User {
@@ -20,6 +21,7 @@ contract Showman {
 
   struct Post {
     string post;
+    address from;
     uint time;
   }
 
@@ -50,11 +52,13 @@ contract Showman {
     users[msg.sender].imageHash = _imageHash;
   }
 
-  function newPost(string _post) public returns (uint postNumber) {
+  function newPost(string _post) public {
 
-    postNumber = posts[msg.sender].length++;
+    uint postNumber = posts.length++;
+    posts[postNumber] = Post(_post, msg.sender, now);
 
-    posts[msg.sender][postNumber] = Post(_post, now);
+    uint addPost = postNumbers[msg.sender].length++;
+    postNumbers[msg.sender][addPost] = postNumber;
   }
 
   function follow(address _follow) public {
@@ -92,9 +96,14 @@ contract Showman {
     feedbacks[feedbacks.length++] = Feedback(_feedback, msg.sender, now);
   }
 
-  function totalPosts(address _add) public view returns (uint) {
+  function totalPosts() public view returns (uint) {
 
-    return posts[_add].length;
+    return posts.length;
+  }
+
+  function totalPostNumbers(address _add) public view returns (uint) {
+
+    return postNumbers[_add].length;
   }
 
   function totalFollowing(address _add) public view returns (uint) {
