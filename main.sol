@@ -68,11 +68,11 @@ contract Showman {
       }  
     }
 
-    for (uint j = 0; j < followers[msg.sender].length; j++) {
+    for (uint j = 0; j < followers[_unFollow].length; j++) {
       
       if (followers[_unFollow][j] == msg.sender) {
 
-        followers[_unFollow][j] = followers[_unFollow][followers[msg.sender].length-1];
+        followers[_unFollow][j] = followers[_unFollow][followers[_unFollow].length-1];
         followers[_unFollow].length--;
       }
     }
