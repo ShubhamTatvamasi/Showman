@@ -65,12 +65,15 @@ contract Showman {
     require(isFollowing[msg.sender][_unFollow].status == true);
     
     uint followingNumber = isFollowing[msg.sender][_unFollow].followingPosition;
-    uint followersNumber = isFollowing[msg.sender][_unFollow].followersPosition;    
-
-    following[msg.sender][followingNumber] = following[msg.sender][following[msg.sender].length-1];
+    address lastFollowing = following[msg.sender][following[msg.sender].length-1];
+    following[msg.sender][followingNumber] = lastFollowing;
+    isFollowing[msg.sender][lastFollowing].followingPosition = isFollowing[msg.sender][_unFollow].followingPosition;
     following[msg.sender].length--;
 
-    followers[_unFollow][followersNumber] = followers[_unFollow][followers[_unFollow].length-1];
+    uint followersNumber = isFollowing[msg.sender][_unFollow].followersPosition;    
+    address lastFollowers = followers[_unFollow][followers[_unFollow].length-1];
+    followers[_unFollow][followersNumber] = lastFollowers;
+    isFollowing[msg.sender][lastFollowing].followersPosition = isFollowing[msg.sender][_unFollow].followersPosition;
     followers[_unFollow].length--;
 
     isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
