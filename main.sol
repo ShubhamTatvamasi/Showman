@@ -43,11 +43,6 @@ contract Showman {
     posts[msg.sender][postNumber] = Post(_post, now);
   }
 
-  function totalPosts(address _add) public view returns (uint) {
-
-  	return posts[_add].length;
-  }
-
   function follow(address _follow) public {
     
     following[msg.sender][following[msg.sender].length++] = _follow;
@@ -79,5 +74,22 @@ contract Showman {
 
     isFollowing[msg.sender][_unFollow] = false;
   }
+
+  function totalPosts(address _add) public view returns (uint) {
+
+    return posts[_add].length;
+  }
+
+  function totalFollowing(address _add) public view returns (uint) {
+
+    return following[_add].length;
+  }
+
+  function totalFollowers(address _add) public view returns (uint) {
+
+    return followers[_add].length;
+  }
+
+
 
 }
