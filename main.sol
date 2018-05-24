@@ -54,7 +54,7 @@ contract Showman {
 
   function unFollow(address _unFollow) public {
     
-    for (uint i = 0; i < following[msg.sender].length;i++) {
+    for (uint i = 0; i < totalFollowing(msg.sender); i++) {
 
       if (following[msg.sender][i] == _unFollow) {
 
@@ -63,7 +63,7 @@ contract Showman {
       }  
     }
 
-    for (uint j = 0; j < followers[_unFollow].length; j++) {
+    for (uint j = 0; j < totalFollowers(_unFollow); j++) {
       
       if (followers[_unFollow][j] == msg.sender) {
 
