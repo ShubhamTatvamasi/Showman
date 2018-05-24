@@ -90,6 +90,4 @@ contract Showman {
     return followers[_add].length;
   }
 
-
-
 }
