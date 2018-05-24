@@ -4,7 +4,11 @@ contract Showman {
 
   mapping (address => User) public users;
   mapping (address => Post[]) public posts;
-  mapping (address => mapping (address => bool)) public followers;
+
+  mapping (address => mapping (address => bool)) public isFollowing;
+
+  mapping (address => address[]) public following;
+  mapping (address => address[]) public followers;
 
   struct User {
     string name;
@@ -46,12 +50,39 @@ contract Showman {
 
   function follow(address _follow) public {
     
-    followers[msg.sender][_follow] = true;
+    uint followingNumber = following[msg.sender].length++;
+    following[msg.sender][followingNumber] = _follow;
+
+    uint followersNumber = following[msg.sender].length++;
+    followers[_follow][followersNumber] = msg.sender;
+
+    isFollowing[msg.sender][_follow] = true;
   }
 
   function unFollow(address _unFollow) public {
     
-    followers[msg.sender][_unFollow] = false;
+    uint followingNumber = following[msg.sender].length;
+    uint followersNumber = followers[msg.sender].length;
+
+    for (uint i = 0; i < followingNumber;i++) {
+
+      if (following[msg.sender][i] == _unFollow) {
+
+        following[msg.sender][i] = following[msg.sender][followingNumber-1];
+        following[msg.sender].length--;
+      }  
+    }
+
+    for (uint j = 0; j < followersNumber; j++) {
+      
+      if (followers[_unFollow][j] == msg.sender) {
+
+        followers[_unFollow][j] = followers[_unFollow][followersNumber-1];
+        followers[_unFollow].length--;
+      }
+    }
+
+    isFollowing[msg.sender][_unFollow] = false;
   }
 
 }
