@@ -131,4 +131,10 @@ contract Showman {
     return feedbacks.length;
   }
 
+  //if ether is sent to this address, send it back.
+  function () public {
+
+    revert();
+  }
+
 }
