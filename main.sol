@@ -80,7 +80,7 @@ contract Showman {
 
   function unFollow(address _unFollow) public {
     require(isFollowing[msg.sender][_unFollow].status == true);
-    
+
     uint followingNumber = isFollowing[msg.sender][_unFollow].followingPosition;
     address lastFollowing = following[msg.sender][following[msg.sender].length-1];
     following[msg.sender][followingNumber] = lastFollowing;
@@ -97,43 +97,42 @@ contract Showman {
   }
 
   function newFeedback(string _feedback) public {
-
+    // add new feedback it array list
     feedbacks.push(Feedback(_feedback, msg.sender, now));
   }
 
   function getUsernameAddress(string _username) public view returns (address) {
-
+    // return the address of the _username
     return usernames[_username];
   }
 
   function totalPosts() public view returns (uint) {
-
+    // return the length of total number of posts
     return posts.length;
   }
 
-  function totalPostNumbers(address _add) public view returns (uint) {
-
-    return postNumbers[_add].length;
+  function totalPostNumbers(address _address) public view returns (uint) {
+    // return the length of total number of posts of _address
+    return postNumbers[_address].length;
   }
 
-  function totalFollowing(address _add) public view returns (uint) {
-
-    return following[_add].length;
+  function totalFollowing(address _address) public view returns (uint) {
+    // return the length of total number of following of _address
+    return following[_address].length;
   }
 
-  function totalFollowers(address _add) public view returns (uint) {
-
-    return followers[_add].length;
+  function totalFollowers(address _address) public view returns (uint) {
+    // return the length of total number of followers of _address
+    return followers[_address].length;
   }
 
   function totalFeedbacks() public view returns (uint) {
-
+    // return the length of total number of feedbacks
     return feedbacks.length;
   }
 
-  // If ether is sent to this address, send it back.
   function () public {
-
+    // if ether is sent to this address, send it back.
     revert();
   }
 
