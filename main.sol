@@ -1,5 +1,10 @@
 pragma solidity ^0.4.0;
 
+/** 
+* @title Project SHowman 
+* @author Shubham Tatvamasi
+* @notice Social Media Project for connecting to people
+*/
 contract Showman {
 
   mapping (address => User) public users;
@@ -121,6 +126,11 @@ contract Showman {
     return following[_address].length;
   }
 
+  /** 
+  * @dev Calculates the length of array
+  * @param _address Width of the rectangle
+  * @return length of total number of followers of _address
+  */
   function totalFollowers(address _address) public view returns (uint) {
     // return the length of total number of followers of _address
     return followers[_address].length;
