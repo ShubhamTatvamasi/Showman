@@ -3,6 +3,7 @@ pragma solidity ^0.4.0;
 contract Showman {
 
   mapping (address => User) public users;
+  mapping (string => address) usernames;
   mapping (address => uint[]) public postNumbers;
 
   mapping (address => mapping (address => Following)) public isFollowing;
@@ -15,6 +16,7 @@ contract Showman {
 
   struct User {
     string name;
+    string username;
     string aboutMe;
     string imageHash;
   }
@@ -37,17 +39,25 @@ contract Showman {
     uint time;
   }
 
-  function updateUserName(string _name) public {
+  function updateUsername(string _username) public {
+    require(usernames[_username] == 0x0000000000000000000000000000000000000000);
+
+    usernames[users[msg.sender].username] = 0x0000000000000000000000000000000000000000;
+    users[msg.sender].username = _username;
+    usernames[_username] = msg.sender;
+  }
+
+  function updateName(string _name) public {
 
     users[msg.sender].name = _name;
   }
 
-  function updateUserAboutMe(string _aboutMe) public {
+  function updateAboutMe(string _aboutMe) public {
 
     users[msg.sender].aboutMe = _aboutMe;
   }
 
-  function updateUserImageHash(string _imageHash) public {
+  function updateImageHash(string _imageHash) public {
 
     users[msg.sender].imageHash = _imageHash;
   }
@@ -94,6 +104,11 @@ contract Showman {
   function newFeedback(string _feedback) public {
 
     feedbacks[feedbacks.length++] = Feedback(_feedback, msg.sender, now);
+  }
+
+  function getUsernameAddress(string _username) public view returns (address) {
+
+    return usernames[_username];
   }
 
   function totalPosts() public view returns (uint) {
