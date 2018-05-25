@@ -64,23 +64,18 @@ contract Showman {
 
   function newPost(string _post) public {
 
-    uint postNumber = posts.length++;
-    posts[postNumber] = Post(_post, msg.sender, now);
-
-    uint addPost = postNumbers[msg.sender].length++;
-    postNumbers[msg.sender][addPost] = postNumber;
+    postNumbers[msg.sender].push(totalPosts());
+    posts.push(Post(_post, msg.sender, now));
   }
 
   function follow(address _follow) public {
     require(isFollowing[msg.sender][_follow].status == false);
+    require(msg.sender != _follow);
 
-    uint followingNumber = following[msg.sender].length++;
-    uint followersNumber = followers[_follow].length++;
+    isFollowing[msg.sender][_follow] = Following(true, totalFollowing(msg.sender), totalFollowers(_follow));
 
-    following[msg.sender][followingNumber] = _follow;
-    followers[_follow][followersNumber] = msg.sender;
-
-    isFollowing[msg.sender][_follow] = Following(true, followingNumber, followersNumber);
+    following[msg.sender].push(_follow);
+    followers[_follow].push(msg.sender);
   }
 
   function unFollow(address _unFollow) public {
@@ -103,7 +98,7 @@ contract Showman {
 
   function newFeedback(string _feedback) public {
 
-    feedbacks[feedbacks.length++] = Feedback(_feedback, msg.sender, now);
+    feedbacks.push(Feedback(_feedback, msg.sender, now));
   }
 
   function getUsernameAddress(string _username) public view returns (address) {
