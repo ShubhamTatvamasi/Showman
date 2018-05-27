@@ -170,7 +170,7 @@ contract Showman {
   // ****************** Utility Functions ******************
 
   /// @dev if ether is sent to this address, send it back
-  function () public {
+  function () external {
     revert();
   }
 
