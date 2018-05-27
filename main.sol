@@ -3,13 +3,13 @@ pragma solidity ^0.4.0;
 /** 
 * @title Project Showman
 * @author Shubham Tatvamasi
-* @notice Social Media Project for connecting to people
+* @notice Social Media Project for connecting people on Blockchain
 */
 contract Showman {
 
   /// @dev address of all the users
   mapping (address => User) public users;
-  /// @dev usernames of all the users
+  /// @dev username of all the users
   mapping (string => address) usernames;
   /// @dev list of posts of the user address
   mapping (address => uint[]) public userPosts;
