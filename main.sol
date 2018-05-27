@@ -7,10 +7,10 @@ pragma solidity ^0.4.0;
 */
 contract Showman {
 
+  // ****************** Public Variables ******************
+
   /// @dev address of all the users
   mapping (address => User) public users;
-  /// @dev username of all the users
-  mapping (string => address) usernames;
   /// @dev list of posts of the user address
   mapping (address => uint[]) public userPosts;
   /// @dev to check if I am following the person or not
@@ -23,6 +23,11 @@ contract Showman {
   Post[] public posts;
   /// @dev list of total feedbacks
   Feedback[] public feedbacks;
+
+  // ****************** Private Variables ******************
+
+  /// @dev username of all the users
+  mapping (string => address) private usernames;
 
   // ****************** Structures ******************
 
@@ -162,7 +167,7 @@ contract Showman {
     return feedbacks.length;
   }
 
-  // ****************** Utility Function ******************
+  // ****************** Utility Functions ******************
 
   /// @dev if ether is sent to this address, send it back
   function () public {
