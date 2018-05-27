@@ -57,7 +57,7 @@ contract Showman {
   function updateUsername(string _username) public {
     require(usernames[_username] == 0x0000000000000000000000000000000000000000);
 
-    usernames[users[msg.sender].username] = 0x0000000000000000000000000000000000000000;
+    delete usernames[users[msg.sender].username];
     users[msg.sender].username = _username;
     usernames[_username] = msg.sender;
   }
