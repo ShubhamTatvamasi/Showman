@@ -24,6 +24,8 @@ contract Showman {
   /// @dev list of total feedbacks
   Feedback[] public feedbacks;
 
+  // ****************** Structures ******************
+
   /// @dev structure for users
   struct User {
     string name;
@@ -53,6 +55,13 @@ contract Showman {
     uint time;
   }
 
+  // ****************** Update Functions ******************
+
+  /// @param _name for updating name
+  function updateName(string _name) public {
+    users[msg.sender].name = _name;
+  }
+
   /// @param _username for updating username
   function updateUsername(string _username) public {
     require(usernames[_username] == 0x0000000000000000000000000000000000000000);
@@ -60,11 +69,6 @@ contract Showman {
     delete usernames[users[msg.sender].username];
     users[msg.sender].username = _username;
     usernames[_username] = msg.sender;
-  }
-
-  /// @param _name for updating name
-  function updateName(string _name) public {
-    users[msg.sender].name = _name;
   }
 
   /// @param _aboutMe for updating about me
@@ -77,11 +81,20 @@ contract Showman {
     users[msg.sender].imageHash = _imageHash;
   }
 
+  // ****************** Post Functions ******************
+
   /// @param _post for adding new post
   function newPost(string _post) public {
     postNumbers[msg.sender].push(totalPosts());
     posts.push(Post(_post, msg.sender, now));
   }
+
+  /// @param _feedback add new feedback
+  function newFeedback(string _feedback) public {
+    feedbacks.push(Feedback(_feedback, msg.sender, now));
+  }
+
+  // ****************** Following Functions ******************
 
   /// @param _follow new user
   function follow(address _follow) public {
@@ -113,10 +126,7 @@ contract Showman {
     isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
   }
 
-  /// @param _feedback add new feedback
-  function newFeedback(string _feedback) public {
-    feedbacks.push(Feedback(_feedback, msg.sender, now));
-  }
+  // ****************** Public Getters ******************
 
   /// @param _username to see the address
   /// @return address of the _username
@@ -151,6 +161,8 @@ contract Showman {
   function totalFeedbacks() public view returns (uint) {
     return feedbacks.length;
   }
+
+  // ****************** Utility Function ******************
 
   /// @dev if ether is sent to this address, send it back
   function () public {
