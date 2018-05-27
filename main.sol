@@ -12,7 +12,7 @@ contract Showman {
   /// @dev usernames of all the users
   mapping (string => address) usernames;
   /// @dev list of posts of the user address
-  mapping (address => uint[]) public postNumbers;
+  mapping (address => uint[]) public userPosts;
   /// @dev to check if I am following the person or not
   mapping (address => mapping (address => Following)) public isFollowing;
   /// @dev list of my followings
@@ -85,7 +85,7 @@ contract Showman {
 
   /// @param _post for adding new post
   function newPost(string _post) public {
-    postNumbers[msg.sender].push(totalPosts());
+    userPosts[msg.sender].push(totalPosts());
     posts.push(Post(_post, msg.sender, now));
   }
 
@@ -134,15 +134,15 @@ contract Showman {
     return usernames[_username];
   }
 
+  /// @param _address to see total posts of user
+  /// @return total posts of _address
+  function getUserPosts(address _address) public view returns (uint) {
+    return userPosts[_address].length;
+  }
+
   /// @return posts
   function totalPosts() public view returns (uint) {
     return posts.length;
-  }
-
-  /// @param _address to see total following
-  /// @return total posts of _address
-  function totalPostNumbers(address _address) public view returns (uint) {
-    return postNumbers[_address].length;
   }
 
   /// @param _address to see total following
