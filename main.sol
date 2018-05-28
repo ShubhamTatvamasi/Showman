@@ -110,6 +110,13 @@ contract Showman {
     p.time = now;
   }
 
+  /// @param _post for liking the post
+  function likePost(uint _post) public {
+    require(hasLikedPost[_post] == false);
+    posts[_post].likes.push(msg.sender);
+    hasLikedPost[_post] == true;
+  }
+
   /// @param _feedback add new feedback
   function newFeedback(string _feedback) public {
     feedbacks.push(Feedback(_feedback, msg.sender, now));
