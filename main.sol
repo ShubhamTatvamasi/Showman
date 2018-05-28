@@ -68,6 +68,7 @@ contract Showman {
     uint time;
   }
 
+  /// @dev structure for message
   struct Message {
     string message;
     address from;
