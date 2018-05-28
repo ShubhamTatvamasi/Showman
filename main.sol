@@ -19,8 +19,6 @@ contract Showman {
   mapping (address => address[]) public following;
   /// @dev list of my followers
   mapping (address => address[]) public followers;
-  /// @dev list of my users who have liked the post
-  mapping (uint => bool) public hasLikedPost;
   /// @dev list of total posts
   Post[] public posts;
   /// @dev list of total feedbacks
@@ -48,6 +46,7 @@ contract Showman {
     uint time;
     address[] likes;
     Comment[] comments;
+    mapping (address => bool) hasLikedPost;
   }
 
   /// @dev structure for comment
@@ -112,9 +111,15 @@ contract Showman {
 
   /// @param _post for liking the post
   function likePost(uint _post) public {
-    require(hasLikedPost[_post] == false);
+    require(posts[_post].hasLikedPost[msg.sender] == false);
     posts[_post].likes.push(msg.sender);
-    hasLikedPost[_post] == true;
+    posts[_post].hasLikedPost[msg.sender] = true;
+  }
+
+  /// @param _post on which we want to post
+  /// @param _comment what we want to comment
+  function commentOnPost(uint _post, string _comment) public {
+    posts[_post].comments.push(Comment(_comment, msg.sender, now));
   }
 
   /// @param _feedback add new feedback
@@ -166,6 +171,18 @@ contract Showman {
   /// @return total posts of _address
   function getUserPosts(address _address) public view returns (uint) {
     return userPosts[_address].length;
+  }
+
+  /// @param _post to see total likes of post
+  /// @return total likes of _post
+  function totalLikesOnPost(uint _post) public view returns (uint) {
+      return posts[_post].likes.length;
+  }
+
+  /// @param _post to see total comments of post
+  /// @return total comments of _post
+  function totalCommentsOnPost(uint _post) public view returns (uint) {
+      return posts[_post].comments.length;
   }
 
   /// @return posts
