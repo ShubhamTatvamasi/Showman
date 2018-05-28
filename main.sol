@@ -19,6 +19,8 @@ contract Showman {
   mapping (address => address[]) public following;
   /// @dev list of my followers
   mapping (address => address[]) public followers;
+  /// @dev list of my users who have liked the post
+  mapping (uint => bool) public hasLikedPost;
   /// @dev list of total posts
   Post[] public posts;
   /// @dev list of total feedbacks
@@ -42,6 +44,15 @@ contract Showman {
   /// @dev structure for posts
   struct Post {
     string post;
+    address from;
+    uint time;
+    address[] likes;
+    Comment[] comments;
+  }
+
+  /// @dev structure for comment
+  struct Comment {
+    string comment;
     address from;
     uint time;
   }
@@ -89,9 +100,14 @@ contract Showman {
   // ****************** Post Functions ******************
 
   /// @param _post for adding new post
-  function newPost(string _post) public {
-    userPosts[msg.sender].push(totalPosts());
-    posts.push(Post(_post, msg.sender, now));
+  function newPost(string _post) public returns (uint postNumber) {
+    postNumber = posts.length++;
+    userPosts[msg.sender].push(postNumber);
+
+    Post storage p = posts[postNumber];
+    p.post = _post;
+    p.from = msg.sender;
+    p.time = now;
   }
 
   /// @param _feedback add new feedback
