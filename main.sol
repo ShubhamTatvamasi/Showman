@@ -36,10 +36,8 @@ contract Showman {
 
   /// @dev list of my chat numbers
   mapping (address => mapping (address => uint)) public chatNumbers;
-
   /// @dev list of all the chats
   mapping (uint => Message[]) public chats;
-
   /// @dev number of total chats
   uint public totalChats;
 
@@ -147,8 +145,10 @@ contract Showman {
     feedbacks.push(Feedback(_feedback, msg.sender, now));
   }
 
-  // ****************** Chat Functions ******************
+  // ****************** Chat Function ******************
 
+  /// @param _to address you want to send the message to
+  /// @param _message for the chat
   function newMessage(address _to, string _message) public returns (uint chatNumber) {
 
     if (chatNumbers[msg.sender][_to] == 0) {
