@@ -13,12 +13,6 @@ contract Showman {
   mapping (address => User) public users;
   /// @dev list of posts of the user address
   mapping (address => uint[]) public userPosts;
-  /// @dev to check if I am following the person or not
-  mapping (address => mapping (address => Following)) public isFollowing;
-  /// @dev list of my followings
-  mapping (address => address[]) public following;
-  /// @dev list of my followers
-  mapping (address => address[]) public followers;
   /// @dev list of total posts
   Post[] public posts;
   /// @dev list of total feedbacks
@@ -28,6 +22,26 @@ contract Showman {
 
   /// @dev username of all the users
   mapping (string => address) private usernames;
+
+  // ****************** Follow Variables ******************
+
+  /// @dev to check if I am following the person or not
+  mapping (address => mapping (address => Following)) public isFollowing;
+  /// @dev list of my followings
+  mapping (address => address[]) public following;
+  /// @dev list of my followers
+  mapping (address => address[]) public followers;
+
+  // ****************** Chat Variables ******************
+
+  /// @dev list of my chat numbers
+  mapping (address => mapping (address => uint)) public chatNumbers;
+
+  /// @dev list of all the chats
+  mapping (uint => Message[]) public chats;
+
+  /// @dev number of total chats
+  uint public totalChats;
 
   // ****************** Structures ******************
 
@@ -52,6 +66,12 @@ contract Showman {
   /// @dev structure for comment
   struct Comment {
     string comment;
+    address from;
+    uint time;
+  }
+
+  struct Message {
+    string message;
     address from;
     uint time;
   }
@@ -125,6 +145,20 @@ contract Showman {
   /// @param _feedback add new feedback
   function newFeedback(string _feedback) public {
     feedbacks.push(Feedback(_feedback, msg.sender, now));
+  }
+
+  // ****************** Chat Functions ******************
+
+  function newMessage(address _to, string _message) public returns (uint chatNumber) {
+
+    if (chatNumbers[msg.sender][_to] == 0) {
+      chatNumber = ++totalChats;
+      chatNumbers[_to][msg.sender] = chatNumber;
+      chatNumbers[msg.sender][_to] = chatNumber;
+    } else {
+        chatNumber = chatNumbers[msg.sender][_to];
+    }
+    chats[chatNumber].push(Message(_message, msg.sender, now));
   }
 
   // ****************** Following Functions ******************
