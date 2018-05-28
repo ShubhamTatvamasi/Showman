@@ -190,7 +190,7 @@ contract Showman {
     isFollowing[msg.sender][lastFollowers].followersPosition = isFollowing[msg.sender][_unFollow].followersPosition;
     followers[_unFollow].length--;
 
-    isFollowing[msg.sender][_unFollow] = Following(false, 0, 0);
+    delete isFollowing[msg.sender][_unFollow];
   }
 
   // ****************** Public Getters ******************
