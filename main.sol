@@ -219,7 +219,7 @@ contract Showman {
       return posts[_post].comments.length;
   }
 
-  /// @return posts
+  /// @return total posts
   function totalPosts() public view returns (uint) {
     return posts.length;
   }
