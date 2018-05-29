@@ -57,7 +57,7 @@ contract Showman {
   /// @dev event for like the post
   event LikePost(address user, address postCreator, uint postNumber);
   /// @dev event for comment on post
-  event CommentOnPost(address user, string comment, uint postNumber);
+  event CommentOnPost(address user, address postCreator, string comment, uint postNumber);
   /// @dev event for new feedback
   event NewFeedback(address user, string feedback);
 
@@ -173,7 +173,7 @@ contract Showman {
   /// @param _postNumber on which we want to post
   function commentOnPost(string _comment, uint _postNumber) public {
     posts[_postNumber].comments.push(Comment(_comment, msg.sender, now));
-    emit CommentOnPost(msg.sender, _comment, _postNumber);
+    emit CommentOnPost(msg.sender, posts[_postNumber].from, _comment, _postNumber);
   }
 
   /// @param _feedback add new feedback
