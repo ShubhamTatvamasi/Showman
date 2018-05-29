@@ -41,6 +41,10 @@ contract Showman {
   /// @dev number of total chats
   uint public totalChats;
 
+  // ****************** Events ******************
+
+  event NameUpdated(address user, string name);
+
   // ****************** Structures ******************
 
   /// @dev structure for users
@@ -94,6 +98,7 @@ contract Showman {
   /// @param _name for updating name
   function updateName(string _name) public {
     users[msg.sender].name = _name;
+    emit NameUpdated(msg.sender, _name);
   }
 
   /// @param _username for updating username
