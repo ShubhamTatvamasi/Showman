@@ -16,7 +16,7 @@ contract Showman {
   /// @dev list of total posts
   Post[] public posts;
   /// @dev list of total feedbacks
-  Feedback[] public feedbacks;
+  Message[] public feedbacks;
 
   // ****************** Private Variables ******************
 
@@ -85,15 +85,8 @@ contract Showman {
     address from;
     uint time;
     address[] likes;
-    Comment[] comments;
+    Message[] comments;
     mapping (address => bool) hasLikedPost;
-  }
-
-  /// @dev structure for comment
-  struct Comment {
-    string comment;
-    address from;
-    uint time;
   }
 
   /// @dev structure for message
@@ -108,13 +101,6 @@ contract Showman {
     bool status;
     uint followingPosition;
     uint followersPosition;
-  }
-
-  /// @dev structure for feedbacks
-  struct Feedback {
-    string feedback;
-    address from;
-    uint time;
   }
 
   // ****************** Update Functions ******************
@@ -172,13 +158,13 @@ contract Showman {
   /// @param _comment what we want to comment
   /// @param _postNumber on which we want to post
   function commentOnPost(string _comment, uint _postNumber) public {
-    posts[_postNumber].comments.push(Comment(_comment, msg.sender, now));
+    posts[_postNumber].comments.push(Message(_comment, msg.sender, now));
     emit CommentOnPost(msg.sender, posts[_postNumber].from, _comment, _postNumber);
   }
 
   /// @param _feedback add new feedback
   function newFeedback(string _feedback) public {
-    feedbacks.push(Feedback(_feedback, msg.sender, now));
+    feedbacks.push(Message(_feedback, msg.sender, now));
     emit NewFeedback(msg.sender, _feedback);
   }
 
