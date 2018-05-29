@@ -52,6 +52,9 @@ contract Showman {
   /// @dev event for when user updates the image hash
   event ImageHashUpdated(address user, string imageHash);
 
+  /// @dev event for new post
+  event NewPost(address user, string post, uint postNumber);
+
   // ****************** Structures ******************
 
   /// @dev structure for users
@@ -141,6 +144,7 @@ contract Showman {
     p.post = _post;
     p.from = msg.sender;
     p.time = now;
+    emit NewPost(msg.sender, _post, postNumber);
   }
 
   /// @param _post for liking the post
