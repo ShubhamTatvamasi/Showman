@@ -55,9 +55,9 @@ contract Showman {
   /// @dev event for new post
   event NewPost(address user, string post, uint postNumber);
   /// @dev event for like the post
-  event LikePost(address user, address postCreator, uint postNumber);
+  event LikePost(address user, address postOwner, uint postNumber);
   /// @dev event for comment on post
-  event CommentOnPost(address user, address postCreator, string comment, uint postNumber);
+  event CommentOnPost(address user, address postOwner, string comment, uint postNumber);
   /// @dev event for new feedback
   event NewFeedback(address user, string feedback);
 
