@@ -64,8 +64,10 @@ contract Showman {
   /// @dev event for new message
   event NewMessage(address from, address to, string message);
 
-  /// @dev event user follower
-  event Follow(address user, address following);
+  /// @dev event user follow
+  event Follow(address user, address follow);
+  /// @dev event user unFollow
+  event UnFollow(address user, address unFollow);
 
   // ****************** Structures ******************
 
@@ -228,6 +230,7 @@ contract Showman {
     followers[_unFollow].length--;
 
     delete isFollowing[msg.sender][_unFollow];
+    emit UnFollow(msg.sender, _unFollow);
   }
 
   // ****************** Public Getters ******************
