@@ -61,6 +61,9 @@ contract Showman {
   /// @dev event for new feedback
   event NewFeedback(address user, string feedback);
 
+  /// @dev event for new message
+  event NewMessage(address from, address to, string message);
+
   // ****************** Structures ******************
 
   /// @dev structure for users
@@ -188,6 +191,7 @@ contract Showman {
         chatNumber = chatNumbers[msg.sender][_to];
     }
     chats[chatNumber].push(Message(_message, msg.sender, now));
+    emit NewMessage(msg.sender, _to, _message);
   }
 
   // ****************** Following Functions ******************
