@@ -54,8 +54,10 @@ contract Showman {
 
   /// @dev event for new post
   event NewPost(address user, string post, uint postNumber);
-  /// @dev event for liking the post
+  /// @dev event for like the post
   event LikePost(address user, uint postNumber);
+  /// @dev event for comment on post
+  event CommentOnPost(address user, string comment, uint postNumber);
 
   // ****************** Structures ******************
 
@@ -157,10 +159,11 @@ contract Showman {
     emit LikePost(msg.sender, _postNumber);
   }
 
-  /// @param _postNumber on which we want to post
   /// @param _comment what we want to comment
-  function commentOnPost(uint _postNumber, string _comment) public {
+  /// @param _postNumber on which we want to post
+  function commentOnPost(string _comment, uint _postNumber) public {
     posts[_postNumber].comments.push(Comment(_comment, msg.sender, now));
+    emit CommentOnPost(msg.sender, _comment, _postNumber);
   }
 
   /// @param _feedback add new feedback
