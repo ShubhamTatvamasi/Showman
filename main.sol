@@ -45,9 +45,10 @@ contract Showman {
 
   /// @dev event for when user updates the name
   event NameUpdated(address user, string name);
-
   /// @dev event for when user updates the username
   event UsernameUpdated(address user, string username);
+  /// @dev event for when user updates the about me
+  event AboutMeUpdated(address user, string aboutMe);
 
   // ****************** Structures ******************
 
@@ -118,6 +119,7 @@ contract Showman {
   /// @param _aboutMe for updating about me
   function updateAboutMe(string _aboutMe) public {
     users[msg.sender].aboutMe = _aboutMe;
+    emit AboutMeUpdated(msg.sender, _aboutMe);
   }
 
   /// @param _imageHash for updating image
