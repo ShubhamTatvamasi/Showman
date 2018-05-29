@@ -281,11 +281,4 @@ contract Showman {
     return feedbacks.length;
   }
 
-  // ****************** Utility Functions ******************
-
-  /// @dev if ether is sent to this address, send it back
-  function () external {
-    revert();
-  }
-
 }
