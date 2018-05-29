@@ -81,9 +81,7 @@ contract Showman {
 
   /// @dev structure for posts
   struct Post {
-    string post;
-    address from;
-    uint time;
+    Message post;
     address[] likes;
     Message[] comments;
     mapping (address => bool) hasLikedPost;
@@ -141,9 +139,7 @@ contract Showman {
     userPosts[msg.sender].push(postNumber);
 
     Post storage p = posts[postNumber];
-    p.post = _post;
-    p.from = msg.sender;
-    p.time = now;
+    p.post = Message(_post, msg.sender, now);
     emit NewPost(msg.sender, _post, postNumber);
   }
 
@@ -152,14 +148,14 @@ contract Showman {
     require(posts[_postNumber].hasLikedPost[msg.sender] == false);
     posts[_postNumber].likes.push(msg.sender);
     posts[_postNumber].hasLikedPost[msg.sender] = true;
-    emit LikePost(msg.sender, posts[_postNumber].from, _postNumber);
+    emit LikePost(msg.sender, posts[_postNumber].post.from, _postNumber);
   }
 
   /// @param _comment what we want to comment
   /// @param _postNumber on which we want to post
   function commentOnPost(string _comment, uint _postNumber) public {
     posts[_postNumber].comments.push(Message(_comment, msg.sender, now));
-    emit CommentOnPost(msg.sender, posts[_postNumber].from, _comment, _postNumber);
+    emit CommentOnPost(msg.sender, posts[_postNumber].post.from, _comment, _postNumber);
   }
 
   /// @param _feedback add new feedback
