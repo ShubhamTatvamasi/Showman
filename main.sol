@@ -49,6 +49,8 @@ contract Showman {
   event UsernameUpdated(address user, string username);
   /// @dev event for when user updates the about me
   event AboutMeUpdated(address user, string aboutMe);
+  /// @dev event for when user updates the image hash
+  event ImageHashUpdated(address user, string imageHash);
 
   // ****************** Structures ******************
 
@@ -125,6 +127,7 @@ contract Showman {
   /// @param _imageHash for updating image
   function updateImageHash(string _imageHash) public {
     users[msg.sender].imageHash = _imageHash;
+    emit ImageHashUpdated(msg.sender, _imageHash);
   }
 
   // ****************** Post Functions ******************
