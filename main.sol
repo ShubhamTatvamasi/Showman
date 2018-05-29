@@ -58,6 +58,8 @@ contract Showman {
   event LikePost(address user, uint postNumber);
   /// @dev event for comment on post
   event CommentOnPost(address user, string comment, uint postNumber);
+  /// @dev event for new feedback
+  event NewFeedback(address user, string feedback);
 
   // ****************** Structures ******************
 
@@ -169,6 +171,7 @@ contract Showman {
   /// @param _feedback add new feedback
   function newFeedback(string _feedback) public {
     feedbacks.push(Feedback(_feedback, msg.sender, now));
+    emit NewFeedback(msg.sender, _feedback);
   }
 
   // ****************** Chat Function ******************
