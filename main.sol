@@ -44,16 +44,18 @@ contract Showman {
   // ****************** Events ******************
 
   /// @dev event for when user updates the name
-  event NameUpdated(address user, string name);
+  event UpdateName(address user, string name);
   /// @dev event for when user updates the username
-  event UsernameUpdated(address user, string username);
+  event UpdateUsername(address user, string username);
   /// @dev event for when user updates the about me
-  event AboutMeUpdated(address user, string aboutMe);
+  event UpdateAboutMe(address user, string aboutMe);
   /// @dev event for when user updates the image hash
-  event ImageHashUpdated(address user, string imageHash);
+  event UpdateImageHash(address user, string imageHash);
 
   /// @dev event for new post
   event NewPost(address user, string post, uint postNumber);
+  /// @dev event for liking the post
+  event LikePost(address user, uint postNumber);
 
   // ****************** Structures ******************
 
@@ -108,7 +110,7 @@ contract Showman {
   /// @param _name for updating name
   function updateName(string _name) public {
     users[msg.sender].name = _name;
-    emit NameUpdated(msg.sender, _name);
+    emit UpdateName(msg.sender, _name);
   }
 
   /// @param _username for updating username
@@ -118,19 +120,19 @@ contract Showman {
     delete usernames[users[msg.sender].username];
     users[msg.sender].username = _username;
     usernames[_username] = msg.sender;
-    emit UsernameUpdated(msg.sender, _username);
+    emit UpdateUsername(msg.sender, _username);
   }
 
   /// @param _aboutMe for updating about me
   function updateAboutMe(string _aboutMe) public {
     users[msg.sender].aboutMe = _aboutMe;
-    emit AboutMeUpdated(msg.sender, _aboutMe);
+    emit UpdateAboutMe(msg.sender, _aboutMe);
   }
 
   /// @param _imageHash for updating image
   function updateImageHash(string _imageHash) public {
     users[msg.sender].imageHash = _imageHash;
-    emit ImageHashUpdated(msg.sender, _imageHash);
+    emit UpdateImageHash(msg.sender, _imageHash);
   }
 
   // ****************** Post Functions ******************
@@ -147,17 +149,18 @@ contract Showman {
     emit NewPost(msg.sender, _post, postNumber);
   }
 
-  /// @param _post for liking the post
-  function likePost(uint _post) public {
-    require(posts[_post].hasLikedPost[msg.sender] == false);
-    posts[_post].likes.push(msg.sender);
-    posts[_post].hasLikedPost[msg.sender] = true;
+  /// @param _postNumber for liking the post
+  function likePost(uint _postNumber) public {
+    require(posts[_postNumber].hasLikedPost[msg.sender] == false);
+    posts[_postNumber].likes.push(msg.sender);
+    posts[_postNumber].hasLikedPost[msg.sender] = true;
+    emit LikePost(msg.sender, _postNumber);
   }
 
-  /// @param _post on which we want to post
+  /// @param _postNumber on which we want to post
   /// @param _comment what we want to comment
-  function commentOnPost(uint _post, string _comment) public {
-    posts[_post].comments.push(Comment(_comment, msg.sender, now));
+  function commentOnPost(uint _postNumber, string _comment) public {
+    posts[_postNumber].comments.push(Comment(_comment, msg.sender, now));
   }
 
   /// @param _feedback add new feedback
