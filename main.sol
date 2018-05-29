@@ -64,6 +64,9 @@ contract Showman {
   /// @dev event for new message
   event NewMessage(address from, address to, string message);
 
+  /// @dev event user follower
+  event Follow(address user, address following);
+
   // ****************** Structures ******************
 
   /// @dev structure for users
@@ -205,6 +208,7 @@ contract Showman {
 
     following[msg.sender].push(_follow);
     followers[_follow].push(msg.sender);
+    emit Follow(msg.sender, _follow);
   }
 
   /// @param _unFollow the user which I am following
