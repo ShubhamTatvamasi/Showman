@@ -55,7 +55,7 @@ contract Showman {
   /// @dev event for new post
   event NewPost(address user, string post, uint postNumber);
   /// @dev event for like the post
-  event LikePost(address user, uint postNumber);
+  event LikePost(address user, address postCreator, uint postNumber);
   /// @dev event for comment on post
   event CommentOnPost(address user, string comment, uint postNumber);
   /// @dev event for new feedback
@@ -166,7 +166,7 @@ contract Showman {
     require(posts[_postNumber].hasLikedPost[msg.sender] == false);
     posts[_postNumber].likes.push(msg.sender);
     posts[_postNumber].hasLikedPost[msg.sender] = true;
-    emit LikePost(msg.sender, _postNumber);
+    emit LikePost(msg.sender, posts[_postNumber].from, _postNumber);
   }
 
   /// @param _comment what we want to comment
