@@ -43,7 +43,11 @@ contract Showman {
 
   // ****************** Events ******************
 
+  /// @dev event for when user updates the name
   event NameUpdated(address user, string name);
+
+  /// @dev event for when user updates the username
+  event UsernameUpdated(address user, string username);
 
   // ****************** Structures ******************
 
@@ -108,6 +112,7 @@ contract Showman {
     delete usernames[users[msg.sender].username];
     users[msg.sender].username = _username;
     usernames[_username] = msg.sender;
+    emit UsernameUpdated(msg.sender, _username);
   }
 
   /// @param _aboutMe for updating about me
